@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="bitbug_favicon.ico" rel="shortcut icon">
+    <title>何宁是猪</title>
+    <style>
+        /* 加载完毕前隐藏 */
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>{{msg}}</div>
+</body>
+
+</html>
+<script src="./js/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: 'welcome',
+        }
+    })
+</script>
