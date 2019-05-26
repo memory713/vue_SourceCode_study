@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="bitbug_favicon.ico" rel="shortcut icon">
-    <title>何宁是猪</title>
+    <title>简单跑马灯</title>
     <style>
         /* 加载完毕前隐藏 */
         [v-cloak] {
@@ -16,7 +16,10 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>{{msg}}</div>
+    <div id="app" v-cloak>
+        <input type="button" @click="go" value="跑">
+        <input type="button" @click="stop" value='停'>
+        {{msg}}</div>
 </body>
 
 </html>
@@ -25,7 +28,24 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            msg: 'welcome',
+            msg: '何宁傻狗，傻狗何宁。',
+            setIntervalName: null,
+        },
+        methods: {
+            go() {
+                if (this.setIntervalName !== null) return;
+
+                this.setIntervalName = setInterval(() => {
+                    var start = this.msg.substring(0, 1);
+                    var end = this.msg.substring(1);
+                    this.msg = end + start;
+                }, 100);
+            },
+            stop() {
+
+                clearInterval(this.setIntervalName);
+                this.setIntervalName = null;
+            }
         }
     })
 </script>
