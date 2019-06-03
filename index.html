@@ -6,32 +6,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="bitbug_favicon.ico" rel="shortcut icon">
-    <title>简单跑马灯</title>
+
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <title>vue 细节补充</title>
     <style>
         /* 加载完毕前隐藏 */
         [v-cloak] {
             display: none;
         }
+
+        #app {
+            padding: 20px;
+        }
+
+        .fengge {
+            width: 100%;
+            height: 2px;
+            background-color: orange;
+            margin: 20px 0;
+        }
     </style>
 </head>
 
 <body>
+    <!-- .stop 阻止时间冒泡
+    .prevent 阻止默认事件
+    .capture 添加事件侦听器时使用事件捕获模式
+    .self 只当事件在该元素本身（比如不是子元素）触发时触发回调
+    .once事件只触发一次 -->
+
+
     <div id="app" v-cloak>
+        <h1>跑马灯</h1>
         <input type="button" @click="go" value="跑">
         <input type="button" @click="stop" value='停'>
-        {{msg}}</div>
+        <div>{{msg}}</div>
+        <div class="fengge"></div>
+        <h1>计算器</h1>
+        <input type="text" v-model='n1'>
+        <select name="" id="" v-model="opt">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+
+        </select>
+        <input type="text" v-model='n2'>
+        <input type="button" value='=' @click="calc">
+        <input type="text" v-model='result'>
+        <div class="fengge"></div>
+        <h1>循环key list1: {key: 'name',key2: 'name2',key3: 'name3'}</h1>
+        <ul>
+            <li v-for="(val,key,i) in list1">值：{{val}} key:{{key}} 索引：{{i}}</li>
+        </ul>
+        <div class="fengge"></div>
+        <h1>过滤器的基本使用</h1>
+        <input type="text" v-model='guolv'>
+        <h4>{{guolvtext|msgFormat(guolv)}}</h4>
+        <div class="fengge"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label for=""> Id:
+                    <input type="text" class="form-control" v-model='tableId'>
+                </label>
+                <label for=""> Name:
+                    <input type="text" class="form-control" v-model='tableName'>
+                </label>
+                <input type="button" value="添加" class="btn btn-primary" @click="addTable">
+                <label for=""> 搜索名称关键字:
+                    <input type="text" class="form-control" v-model='tableSearch'>
+                </label>
+
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Opration</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in searchList2(tableSearch)" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime | dataFormat(item.ctime)}}</td>
+                    <td><a href="" @click.prevent="tableDel(item.id)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </body>
 
 </html>
+<!-- <script src="./js/bootstrap.js"></script> -->
 <script src="./js/vue.js"></script>
 <script>
+    // 定义一个全局的过滤器msgFormat
+    Vue.filter('msgFormat', function (msg, arg) {
+        // replace方法  第一个参数可以传正则
+        return msg.replace(/傻狗/g, arg)
+    })
+
+    Vue.filter('dataFormat', function (msg) {
+        var dt = new Date(msg);
+        var y = dt.getFullYear();
+        var m = dt.getMonth() + 1;
+        var d = dt.getDate();
+        var hh = dt.getHours();
+        var mm = dt.getMinutes();
+        var ss = dt.getSeconds();
+
+
+        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+    })
+
     var vm = new Vue({
         el: '#app',
         data: {
             msg: '何宁傻狗，傻狗何宁。',
             setIntervalName: null,
+            n1: 0,
+            n2: 0,
+            result: 0,
+            opt: '+',
+            list1: {
+                key: 'name',
+                key2: 'name2',
+                key3: 'name3'
+            },
+            list2: [
+                { id: 1, name: 'a', ctime: new Date(), },
+                { id: 2, name: 'as', ctime: new Date(), },
+                { id: 3, name: 'asdf', ctime: new Date(), },
+                { id: 4, name: 'ww', ctime: new Date(), },
+                { id: 5, name: 'ee', ctime: new Date(), },
+                { id: 6, name: 'ew', ctime: new Date(), },
+            ],
+            tableId: '',
+            tableName: '',
+            tableSearch: '',
+            guolv: '傻狗2',
+            guolvtext: '何宁是傻狗，傻狗是何宁'
+
+        },
+        filters: {//私有的过滤器
+
         },
         methods: {
+            // 跑马灯
             go() {
                 if (this.setIntervalName !== null) return;
 
@@ -41,10 +170,73 @@
                     this.msg = end + start;
                 }, 100);
             },
+            // 跑马灯停止
             stop() {
 
                 clearInterval(this.setIntervalName);
                 this.setIntervalName = null;
+            },
+            // 计算按钮
+            calc() {
+                // switch (this.opt) {
+                //     case '+': this.result = parseInt(this.n1) + parseInt(this.n2);
+                //         break;
+                //     case '-': this.result = parseInt(this.n1) - parseInt(this.n2);
+                //         break;
+                //     case '*': this.result = parseInt(this.n1) * parseInt(this.n2);
+                //         break;
+                //     case '/': this.result = parseInt(this.n1) /  parseInt(this.n2);
+                //         break;
+                // }
+
+                var codeStr = ' parseInt(this.n1) ' + this.opt + 'parseInt(this.n2)'
+                this.result = eval(codeStr)
+            },
+            // 表单相关  添加按钮
+            addTable() {
+                var car = { id: this.tableId, name: this.tableName, ctime: new Date() }
+                this.list2.push(car)
+                this.tableId = this.tableName = ''
+            },
+            tableDel(id) {
+
+                // some方法
+                // this.list2.some((item, i) => {
+                //     if (item.id === id) {
+                //         this.list2.splice(i, 1)
+                //         // some该方法中 如果return true  就会终止这个数组的后续循环
+                //         return true
+                //     }
+                // })
+
+                // findIndex方法
+                var index = this.list2.findIndex(item => {
+                    if (item.id == id) {
+                        return true;
+                    }
+                })
+                this.list2.splice(index, 1)
+
+
+            },
+            searchList2(tableSearch) {
+                // some forEach filter findIndex  都属于数组新方法  都会被数组每一项进行遍历
+                // var newList = []
+                // this.list2.forEach(item => {
+                //     if (item.name.indexOf(tableSearch) !== -1) {
+                //         newList.push(item);
+                //     } 
+                // });
+                // return newList
+
+                return this.list2.filter(item => {
+                    // ES6中 为字符串提供了新的方法 String.prototype.includes('要包含的字符串')
+                    // 返回 true 否则 false (jquery:contains   $(':contains(text)') )
+                    if (item.name.includes(tableSearch)) {
+                        return item
+                    }
+                });
+
             }
         }
     })
