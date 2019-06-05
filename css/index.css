@@ -1,0 +1,60 @@
+/* 加载完毕前隐藏 */
+[v-cloak] {
+  display: none;
+}
+
+#app {
+  padding: 20px 20px 800px 20px;
+}
+
+.fengge {
+  width: 100%;
+  height: 2px;
+  background-color: orange;
+  margin: 20px 0;
+}
+
+.get-info {
+  padding: 20px;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+/* 时间点    */
+.my-enter,
+.my-leave-to {
+  opacity: 0;
+  transform: translateX(-90px);
+}
+
+.my-leave-active,
+.my-enter-active {
+  transition: all 2s ease;
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+  transform: translateX(-90px);
+}
+
+.v-leave-active,
+.v-enter-active {
+  transition: all 0.8s ease;
+}
+
+/* 删除时后面的列表的渐渐浮上来的动画 */
+.v-move {
+  transition: all 0.8s ease;
+}
+
+.v-leave-active {
+  position: absolute;
+}
+
+.ball {
+  width: 20px;
+  height: 20px;
+  background-color: palevioletred;
+  border-radius: 50%;
+}
