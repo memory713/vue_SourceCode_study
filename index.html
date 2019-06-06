@@ -143,7 +143,7 @@
             <div class="fengge"></div>
             <h1>加入购物车简单效果</h1>
             <input type="button" value="加入购物车" @click="flagBall=!flagBall">
-            <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" name='ball'>
+            <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" name='ballTrans'>
                 <div class="ball" v-show='flagBall'></div>
             </transition>
 
