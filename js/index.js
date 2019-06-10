@@ -204,13 +204,12 @@ var vm = new Vue({
     },
     enter(el, done) {
       el.offsetWidth;
-      el.style.transform = "translate(150px,450px)";
+      el.style.transform = "translate(50px,150px)";
       el.style.transition = "all 2s ease";
       done();
     },
     afterEnter(el) {
-      //   this.flagBall = !this.flagBall;
-      el.style.opacity = 0;
+      this.flagBall = !this.flagBall;
     }
   },
   beforeCreate() {

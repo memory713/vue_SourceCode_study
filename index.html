@@ -138,7 +138,6 @@
                 <component :is="comName"></component>
             </transition>
         </div>
-
         <div>
             <div class="fengge"></div>
             <h1>加入购物车简单效果</h1>
@@ -146,12 +145,7 @@
             <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" name='ballTrans'>
                 <div class="ball" v-show='flagBall'></div>
             </transition>
-
         </div>
-
-
-
-
     </div>
     <template id="temp">
         <div>
@@ -160,7 +154,6 @@
             <h6>{{count}}</h6>
         </div>
     </template>
-
 </body>
 
 </html>
