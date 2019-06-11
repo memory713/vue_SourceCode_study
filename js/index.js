@@ -78,6 +78,7 @@ var vm = new Vue({
   el: "#app",
   data: {
     msg: "何宁傻狗，傻狗何宁。",
+    msg22: "父组建的值",
     comName: "login",
     setIntervalName: null,
     flagBall: false,
@@ -115,6 +116,19 @@ var vm = new Vue({
       bind: function(el, bbb) {
         el.style.fontWeight = bbb.value;
       }
+    }
+  },
+  components: {
+    template1: {
+      data() {
+        return {
+          title: "123",
+          content: "qqq"
+        };
+      },
+      template: "<h3>{{parentmsg}}</h3>",
+      // 只读数据
+      props: ["parentmsg"]
     }
   },
   methods: {
