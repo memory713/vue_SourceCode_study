@@ -55,18 +55,20 @@ Vue.directive("color", {
 });
 
 // 自定义组建
-Vue.component("myCom", {
+var commentBox = {
   // 模版只能有唯一的根元素
   template: "#temp",
-  data: function() {
-    return { count: 0 };
+  data() {
+    return {
+      user: "",
+      content: ""
+    };
   },
   methods: {
-    increment() {
-      this.count++;
-    }
+    postComment() {}
   }
-});
+};
+
 Vue.component("login", {
   template: "<h3>这个是登陆组建</h3>"
 });
@@ -101,6 +103,11 @@ var vm = new Vue({
       { id: 5, name: "ee", ctime: new Date() },
       { id: 6, name: "ew", ctime: new Date() }
     ],
+    list3: [
+      { id: Date.now(), user: "a", content: "aaa" },
+      { id: Date.now(), user: "b", content: "bbb" },
+      { id: Date.now(), user: "c", content: "ccc" }
+    ],
     tableId: "",
     tableName: "",
     tableSearch: "",
@@ -119,17 +126,7 @@ var vm = new Vue({
     }
   },
   components: {
-    template1: {
-      data() {
-        return {
-          title: "123",
-          content: "qqq"
-        };
-      },
-      template: "<h3>{{parentmsg}}</h3>",
-      // 只读数据
-      props: ["parentmsg"]
-    }
+    "cmt-box": commentBox
   },
   methods: {
     // 跑马灯
