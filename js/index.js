@@ -65,7 +65,15 @@ var commentBox = {
     };
   },
   methods: {
-    postComment() {}
+    postComment() {
+      var comment = { id: Date.now(), user: this.user, content: this.content };
+      var list = JSON.parse(localStorage.getItem("cmts") || "[]");
+      list.unshift(comment);
+      localStorage.setItem("cmts", JSON.stringify(list));
+      this.user = "";
+      this.content = "";
+      this.$emit("func");
+    }
   }
 };
 
@@ -221,6 +229,11 @@ var vm = new Vue({
     },
     afterEnter(el) {
       this.flagBall = !this.flagBall;
+    },
+    loadComments() {
+      console.log("emmmm");
+      var list = JSON.parse(localStorage.getItem("cmts") || "[]");
+      this.list3 = list;
     }
   },
   beforeCreate() {
@@ -234,6 +247,7 @@ var vm = new Vue({
   },
   mounted() {
     //第4个钩子函数 模版渲染 页面挂载
+    this.loadComments();
   },
   beforeUpdate() {
     //第5个钩子函数 界面没有被更新 数据已更新
