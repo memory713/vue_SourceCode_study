@@ -87,6 +87,7 @@ Vue.component("register", {
 var vm = new Vue({
   el: "#app",
   data: {
+    pickerValue: "",
     msg: "何宁傻狗，傻狗何宁。",
     msg22: "父组建的值",
     comName: "login",
