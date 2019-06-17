@@ -77,6 +77,18 @@ var commentBox = {
   }
 };
 
+var login = {
+  template: "<h3>这个是登陆组建</h3>"
+};
+var register = {
+  template: "<h3>这个是注册组建</h3>"
+};
+var routerObj = new VueRouter({
+  routers: [
+    { path: "/login", component: login },
+    { path: "/register", component: register }
+  ]
+});
 Vue.component("login", {
   template: "<h3>这个是登陆组建</h3>"
 });
@@ -86,6 +98,21 @@ Vue.component("register", {
 
 var vm = new Vue({
   el: "#app",
+  router: routerObj,
+  filters: {
+    //私有的过滤器
+  },
+  directives: {
+    // 基于Vue.directive自定义的指令，内部字母不能大写，要将JasonNiu改为Jasonniuk
+    fontweight: {
+      bind: function(el, bbb) {
+        el.style.fontWeight = bbb.value;
+      }
+    }
+  },
+  components: {
+    "cmt-box": commentBox
+  },
   data: {
     pickerValue: "",
     msg: "何宁傻狗，傻狗何宁。",
@@ -123,20 +150,7 @@ var vm = new Vue({
     guolv: "傻狗2",
     guolvtext: "何宁是傻狗，傻狗是何宁"
   },
-  filters: {
-    //私有的过滤器
-  },
-  directives: {
-    // 基于Vue.directive自定义的指令，内部字母不能大写，要将JasonNiu改为Jasonniuk
-    fontweight: {
-      bind: function(el, bbb) {
-        el.style.fontWeight = bbb.value;
-      }
-    }
-  },
-  components: {
-    "cmt-box": commentBox
-  },
+
   methods: {
     // 跑马灯
     go() {
