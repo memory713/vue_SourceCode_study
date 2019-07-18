@@ -77,19 +77,6 @@ var commentBox = {
   }
 };
 
-var login = {
-  template: "<h3>这个是登陆组建</h3>"
-};
-var register = {
-  template: "<h3>这个是注册组建</h3>"
-};
-var routerObj = new VueRouter({
-  routers: [
-    { path: "/", redirect: "/login" },
-    { path: "/login", component: login },
-    { path: "/register", component: register }
-  ]
-});
 Vue.component("login", {
   template: "<h3>这个是登陆组建</h3>"
 });
@@ -99,7 +86,6 @@ Vue.component("register", {
 
 var vm = new Vue({
   el: "#app",
-  router: routerObj,
   filters: {
     //私有的过滤器
   },

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/vue-router.js"></script>
+</head>
+<style>
+    .header {
+        height: 80px;
+        background-color: orange;
+    }
+
+    .left {
+        background-color: lightblue;
+    }
+
+    .main {
+        background-color: lightpink;
+    }
+
+    .container {
+        display: flex;
+    }
+</style>
+
+<body>
+    <div id="app">
+
+        <router-view></router-view>
+        <div class="container">
+            <router-view name="left"></router-view>
+            <router-view name="main"></router-view>
+        </div>
+
+
+    </div>
+
+    <template id="tempheader">
+        <div class="header">
+            <h1>header头部区域</h1>
+        </div>
+    </template>
+    <template id="templeft">
+        <div class="left">
+            <h1>left侧边栏区域</h1>
+        </div>
+    </template>
+    <template id="mainbox">
+        <div class="main">
+            <h1>mainbox主体区域</h1>
+        </div>
+    </template>
+</body>
+
+</html>
+<script>
+    var tempheader = {
+        template: '#tempheader',
+        data() {
+            return {
+                msg: ''
+            }
+        },
+        created() {
+            // 组件的生命周期🐶
+            //this.$route.query.id
+            //this.$route.params.id
+        },
+    }
+    var templeft = {
+        template: '#templeft',
+    }
+    var mainbox = {
+        template: '#mainbox',
+    }
+    var router = new VueRouter({
+        routes: [
+            {
+                path: '/', components: {
+                    'default': tempheader,
+                    'left': templeft,
+                    'main': mainbox
+                }
+            },
+
+        ]
+    })
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router: router
+    });
+
+</script>
