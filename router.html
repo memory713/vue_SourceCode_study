@@ -43,10 +43,19 @@
         <router-view></router-view>
         <div class="container">
             <router-view name="left"></router-view>
-            <router-view name="main"></router-view>
+            <router-view name="main">
+
+            </router-view>
         </div>
+        <sontemp v-bind:parentmsg="msg" @func="getdataFromSon"></sontemp>
 
+        <div>
+            <input type="text" v-model="firstname"> +
+            <input type="text" v-model="midname"> +
+            <input type="text" v-model="lastname"> =
+            <input type="text" v-model="fullname">
 
+        </div>
     </div>
 
     <template id="tempheader">
@@ -63,8 +72,14 @@
         <div class="main">
             <h1>mainbox主体区域</h1>
         </div>
-
     </template>
+    <template id="sontemplate">
+        <div class="children">
+            <h1>子组建{{parentmsg}}</h1>
+            <input type="button" value="向父组件传递消息" @click="sendMSG">
+        </div>
+    </template>
+
 </body>
 
 </html>
@@ -87,6 +102,21 @@
     }
     var mainbox = {
         template: '#mainbox',
+        props: ['parentmsg']
+    }
+    var sontemp = {
+        template: '#sontemplate',
+        props: ['parentmsg'],
+        data() {
+            return {
+                msg: '这是子组件的内容'
+            }
+        },
+        methods: {
+            sendMSG() {
+                this.$emit("func", this.msg)
+            }
+        },
     }
     var router = new VueRouter({
         routes: [
@@ -104,9 +134,37 @@
 
     var vm = new Vue({
         el: '#app',
-        data: {},
+        data: {
+            msg: '这是父组件中的内容',
+            firstname: '',
+            midname: '',
+            lastname: '',
+        },
         methods: {},
-        router: router
+        router: router,
+        components: {
+            sontemp
+        },
+        // watch: {
+        //     "firstname": function (newVal, oldVal) {
+        //         this.fullname = newVal + "-" + this.lastname
+        //     },
+        //     "lastname": function (newVal, oldVal) {
+        //         this.fullname = this.firstname + "-" + newVal
+        //     }
+        // },
+        computed: {
+            "fullname": function () {
+                // 计算属性 所用到的任何值发生变化 都会触发 求值结果会被缓存起来方便之后用到
+                return this.firstname + "-" + this.midname + '-' + this.lastname
+            }
+        },
+        methods: {
+            getdataFromSon(data) {
+                this.msgFromSon = data
+                console.log(this.msgFromSon)
+            }
+        }
     });
 
 </script>
