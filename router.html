@@ -56,6 +56,11 @@
             <input type="text" v-model="fullname">
 
         </div>
+
+        <div>
+            <input type="text" v-model="inputValue">
+            <input type="botton" value="嗯" @click="jisuan">
+        </div>
     </div>
 
     <template id="tempheader">
@@ -140,6 +145,8 @@
             firstname: '',
             midname: '',
             lastname: '',
+            inputValue: '',
+            inputValue: ''
         },
         methods: {},
         router: router,
@@ -160,11 +167,21 @@
                 return this.firstname + "-" + this.midname + '-' + this.lastname
             }
         },
+        mounted() {
+
+
+        },
         methods: {
             getdataFromSon(data) {
                 this.msgFromSon = data
                 console.log(this.msgFromSon)
+            },
+            jisuan() {
+                var str = this.inputValue + '';
+                var s = str.substring(4, str.indexOf(".") + 4)
+                console.log(s)
             }
+
         }
     });
 
